@@ -1,4 +1,5 @@
 import dayjs, { Dayjs } from "dayjs";
+import "dayjs/locale/nb";
 import TextField from "@mui/material/TextField";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
@@ -15,6 +16,8 @@ import ExpandMore from "@mui/icons-material/ExpandMore";
 import Collapse from "@mui/material/Collapse";
 import Divider from "@mui/material/Divider";
 import { entries, nummer } from "./data";
+import SearchIcon from "@mui/icons-material/Search";
+import InputAdornment from "@mui/material/InputAdornment";
 
 interface Entry {
   tittel: string;
@@ -23,6 +26,8 @@ interface Entry {
   sted: string;
   ressurs: string;
   ansvarlig: string;
+  category: string;
+  antall: number;
 }
 
 const categories = [
@@ -51,12 +56,13 @@ console.log(
 );
 
 export default function Search() {
-  const [fromValue, setFromValue] = useState<Dayjs | null>(
-    dayjs("2018-01-01T00:00:00.000Z")
-  );
-  const [toValue, setToValue] = useState<Dayjs | null>(
-    dayjs("2018-01-01T00:00:00.000Z")
-  );
+  const [fromValue, setFromValue] = useState<Dayjs | null>(dayjs());
+
+  const [toValue, setToValue] = useState<Dayjs | null>(dayjs());
+
+  const [category, setCategory] = useState<string | null>(null);
+
+  const [searchValue, setSearchValue] = useState<string>("");
 
   const [open, setOpen] = useState(
     Object.fromEntries(entries.map((entry: Entry) => [entry.ansvarlig, false]))
@@ -67,7 +73,7 @@ export default function Search() {
   };
 
   return (
-    <LocalizationProvider dateAdapter={AdapterDayjs}>
+    <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="nb">
       <Stack spacing={3}>
         <Typography>Søk i kalenderoppføringer</Typography>
         <MobileDateTimePicker
@@ -92,9 +98,28 @@ export default function Search() {
           options={categories}
           id="open-on-focus"
           openOnFocus
+          value={category}
+          onChange={(event: any, newValue: string | null) => {
+            setCategory(newValue);
+          }}
           renderInput={(params) => (
-            <TextField {...params} label="Kategori" variant="standard" />
+            <TextField {...params} label="Kategori" variant="outlined" />
           )}
+        />
+        <TextField
+          label="Søk"
+          variant="outlined"
+          value={searchValue}
+          onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+            setSearchValue(event.target.value);
+          }}
+          InputProps={{
+            startAdornment: (
+              <InputAdornment position="start">
+                <SearchIcon />
+              </InputAdornment>
+            ),
+          }}
         />
         <List
           sx={{
@@ -145,7 +170,6 @@ export default function Search() {
                         <b>Til:</b>
                       </Typography>
                       <Typography>
-                        {" "}
                         {new Date(entry.to).toLocaleDateString("no-NB", {
                           weekday: "long",
                           hour: "numeric",
@@ -173,6 +197,12 @@ export default function Search() {
                         <b>Ansvarlig:</b>
                       </Typography>
                       <Typography>{entry.ansvarlig}</Typography>
+                    </Stack>
+                    <Stack direction="row" justifyContent="space-between">
+                      <Typography>
+                        <b>Antall deltakere:</b>
+                      </Typography>
+                      <Typography>{entry.antall}</Typography>
                     </Stack>
                   </Stack>
                 </Collapse>

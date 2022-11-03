@@ -27,6 +27,7 @@ export const entries = [
     ressurs: "Faustina Vasilchikov, 42224352",
     ansvarlig: "Moen-Jakubowski",
     category: "Aktiviteter etter ordinær arbeidstid uten alkohol",
+    antall: 150,
   },
   {
     tittel: "81 Montana Parkway Gleichner Festligheter",
@@ -36,6 +37,7 @@ export const entries = [
     ressurs: "Jim Phorsby, 92874614",
     ansvarlig: "Gleichner, Schimmel and Auer",
     category: "Alkoholsøknader linjeforeningskontor",
+    antall: 10,
   },
   {
     tittel: "14640 Ridge Oak Alley Dickinson Festligheter",
@@ -45,6 +47,7 @@ export const entries = [
     ressurs: "Shelli Rekes, 93085924",
     ansvarlig: "Dickinson, Hackett and McClure",
     category: "Alkoholsøknader linjeforeningskontor",
+    antall: 25,
   },
   {
     tittel: "67 Main Avenue Hagenes Group Sperret parkeringsplass",
@@ -54,6 +57,7 @@ export const entries = [
     ressurs: "Bryant Shimmans, 49925096",
     ansvarlig: "Hagenes Group",
     category: "Intern aktivitet Vakt og service",
+    antall: 0,
   },
   {
     tittel: "88643 Manley Pass Beier LLC Forskningstorget",
@@ -63,6 +67,7 @@ export const entries = [
     ressurs: "Lorine Lowin, 99379526",
     ansvarlig: "Beier LLC",
     category: "Større arrangementer",
+    antall: 300,
   },
   {
     tittel: "3001 Cascade Parkway Grimes-Sporer Alkoholsøknad linjeforening",
@@ -72,6 +77,7 @@ export const entries = [
     ressurs: "Kirby Cheal, 45015699",
     ansvarlig: "Grimes-Sporer",
     category: "Alkoholsøknader linjeforeningskontor",
+    antall: 15,
   },
   {
     tittel: "31 Dennis Court Lowe LLC Arbeid på heisen i bygget",
@@ -81,6 +87,7 @@ export const entries = [
     ressurs: "Gloriana McPake, 43948163",
     ansvarlig: "Lowe LLC",
     category: "Planlagt utkobling/stans/test",
+    antall: 0,
   },
   {
     tittel: "8684 Montana Trail Cassin Kronprinsbesøk",
@@ -90,6 +97,7 @@ export const entries = [
     ressurs: "Mireielle Whyard, 93282052",
     ansvarlig: "Cassin and Sons",
     category: "Offisielle besøk til NTNU",
+    antall: 50,
   },
   {
     tittel: "00383 Kipling Street Pfeffer-Kris Festligheter",
@@ -99,6 +107,7 @@ export const entries = [
     ressurs: "Tabby Panniers, 98308064",
     ansvarlig: "Pfeffer-Kris",
     category: "Aktiviteter etter ordinær arbeidstid med alkohol",
+    antall: 35,
   },
   {
     tittel: "484 Blaine Point Rath Festligheter",
@@ -108,6 +117,7 @@ export const entries = [
     ressurs: "Christal York, 90776824",
     ansvarlig: "Rath and Sons",
     category: "Aktiviteter etter ordinær arbeidstid med alkohol",
+    antall: 40,
   },
   {
     tittel: "6 Katie Circle Spinka-Osinski Festligheter",
@@ -117,6 +127,7 @@ export const entries = [
     ressurs: "Urbanus Elsmere, 45105001",
     ansvarlig: "Spinka-Osinski",
     category: "Alkoholsøknader linjeforeningskontor",
+    antall: 350,
   },
   {
     tittel: "276 Veith Avenue Feeney-Stiedemann Intern",
@@ -126,6 +137,7 @@ export const entries = [
     ressurs: "Ellis Petford, 42575386",
     ansvarlig: "Feeney-Stiedemann",
     category: "Intern aktivitet Vakt og service",
+    antall: 0,
   },
   {
     tittel: "0619 Mifflin Point Nader-Rau Konfirmasjon",
@@ -135,6 +147,7 @@ export const entries = [
     ressurs: "Quinn Hannent, 98765068",
     ansvarlig: "Nader-Rau",
     category: "Aktiviteter etter ordinær arbeidstid uten alkohol",
+    antall: 25,
   },
   {
     tittel: "95398 Mockingbird Lane Gislason-O'Keefe Strømstans",
@@ -144,6 +157,7 @@ export const entries = [
     ressurs: "Idell Grastye, 49925096",
     ansvarlig: "Gislason-O'Keefe",
     category: "Planlagt utkobling/stans/test",
+    antall: 0,
   },
   {
     tittel: "04 Warner Terrace Schmitt-King Researcher's night",
@@ -153,6 +167,7 @@ export const entries = [
     ressurs: "Legra Antonescu, 99871190",
     ansvarlig: "Schmitt-King",
     category: "Større arrangementer",
+    antall: 1500,
   },
   {
     tittel: "368 Schurz Crossing Hayes Flagging",
@@ -162,6 +177,7 @@ export const entries = [
     ressurs: "Elliot Rude, 49925096",
     ansvarlig: "Hayes, Pfannerstill and Lindgren",
     category: "Flaggdager",
+    antall: 0,
   },
   {
     tittel: "5 Graceland Place Funk LLC Intern",
@@ -171,6 +187,7 @@ export const entries = [
     ressurs: "Ase Vedeneev, 93689851",
     ansvarlig: "Funk LLC",
     category: "Intern aktivitet Vakt og service",
+    antall: 0,
   },
   {
     tittel: "7 Fremont Drive Nienow Rektorfest",
@@ -180,6 +197,7 @@ export const entries = [
     ressurs: "Elvis Cocker, 48632291",
     ansvarlig: "Nienow, Collier and Fadel",
     category: "Offisielle besøk til NTNU",
+    antall: 15,
   },
   {
     tittel: "49512 Corscot Parkway Weimann Samarbeidsmøte",
@@ -189,6 +207,7 @@ export const entries = [
     ressurs: "Karie Worsfold, 90682195",
     ansvarlig: "Weimann, Conroy and Hills",
     category: "Aktiviteter etter ordinær arbeidstid uten alkohol",
+    antall: 40,
   },
   {
     tittel: "9 Oak Valley Lane Walker Group Stans i ventilasjon",
@@ -198,6 +217,7 @@ export const entries = [
     ressurs: "Jenine Bredes, 92776761",
     ansvarlig: "Walker Group",
     category: "Planlagt utkobling/stans/test",
+    antall: 0,
   },
   {
     tittel: "9 Bunker Hill Street Denesik Festligheter",
@@ -207,6 +227,7 @@ export const entries = [
     ressurs: "Pauletta Warke, 97232748",
     ansvarlig: "Denesik, Ruecker and Kiehn",
     category: "Alkoholsøknader linjeforeningskontor",
+    antall: 10,
   },
 ];
 
