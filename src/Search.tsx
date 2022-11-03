@@ -6,7 +6,7 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { MobileDateTimePicker } from "@mui/x-date-pickers/MobileDateTimePicker";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Autocomplete from "@mui/material/Autocomplete";
 import List from "@mui/material/List";
 import ListItemButton from "@mui/material/ListItemButton";
@@ -15,7 +15,7 @@ import ExpandLess from "@mui/icons-material/ExpandLess";
 import ExpandMore from "@mui/icons-material/ExpandMore";
 import Collapse from "@mui/material/Collapse";
 import Divider from "@mui/material/Divider";
-import { entries, nummer } from "./data";
+import { entries } from "./data";
 import SearchIcon from "@mui/icons-material/Search";
 import InputAdornment from "@mui/material/InputAdornment";
 
@@ -41,20 +41,6 @@ const categories = [
   "Alkoholsøknader linjeforeningskontor",
 ];
 
-console.log(
-  JSON.stringify(
-    entries.map((entry: Entry) => ({
-      ...entry,
-      ressurs: entry.ressurs.replace(
-        "92345678",
-        nummer[Math.floor(Math.random() * nummer.length)]
-      ),
-      category: categories[Math.floor(Math.random() * categories.length)],
-      tittel: `${entry.sted} ${entry.ansvarlig} BESKRIVELSE`,
-    }))
-  )
-);
-
 export default function Search() {
   const [fromValue, setFromValue] = useState<Dayjs | null>(dayjs());
 
@@ -67,6 +53,40 @@ export default function Search() {
   const [open, setOpen] = useState(
     Object.fromEntries(entries.map((entry: Entry) => [entry.ansvarlig, false]))
   );
+
+  const [entryList, setEntryList] = useState(entries);
+
+  useEffect(() => {
+    const containsSearchValues = (entry: Entry, value: string) => {
+      return (
+        entry.tittel.toLowerCase().includes(value) ||
+        entry.ansvarlig.toLowerCase().includes(value) ||
+        entry.ressurs.toLowerCase().includes(value) ||
+        entry.sted.toLowerCase().includes(value)
+      );
+    };
+
+    const searchValues = searchValue
+      .toLowerCase()
+      .split(" ")
+      .filter((val) => val.trim() !== "");
+
+    if (searchValues.length > 0) {
+      setEntryList(
+        entries.filter((entry) => {
+          console.log(
+            entry.tittel,
+            searchValues.map((val) => containsSearchValues(entry, val))
+          );
+          return !searchValues
+            .map((val) => containsSearchValues(entry, val))
+            .includes(false);
+        })
+      );
+    } else {
+      setEntryList(entries);
+    }
+  }, [fromValue, toValue, category, searchValue]);
 
   const handleClick = (ansvarlig: string) => {
     setOpen({ ...open, [ansvarlig]: !open[ansvarlig] });
@@ -129,7 +149,7 @@ export default function Search() {
           aria-labelledby="nested-list-subheader"
         >
           <Stack spacing={1}>
-            {entries.map((entry: Entry) => (
+            {entryList.map((entry: Entry) => (
               <>
                 <Divider />
                 <ListItemButton
