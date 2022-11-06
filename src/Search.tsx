@@ -7,7 +7,6 @@ import { MobileDateTimePicker } from "@mui/x-date-pickers/MobileDateTimePicker";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 import { useEffect, useState } from "react";
-import Autocomplete from "@mui/material/Autocomplete";
 import List from "@mui/material/List";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemText from "@mui/material/ListItemText";
@@ -18,6 +17,35 @@ import Divider from "@mui/material/Divider";
 import { entries } from "./data";
 import SearchIcon from "@mui/icons-material/Search";
 import InputAdornment from "@mui/material/InputAdornment";
+import Chip from "@mui/material/Chip";
+import {
+  Box,
+  MenuItem,
+  Select,
+  SelectChangeEvent,
+  Theme,
+  useTheme,
+} from "@mui/material";
+
+const ITEM_HEIGHT = 48;
+const ITEM_PADDING_TOP = 8;
+const MenuProps = {
+  PaperProps: {
+    style: {
+      maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
+      width: 250,
+    },
+  },
+};
+
+function getStyles(name: string, personName: readonly string[], theme: Theme) {
+  return {
+    fontWeight:
+      personName.indexOf(name) === -1
+        ? theme.typography.fontWeightRegular
+        : theme.typography.fontWeightMedium,
+  };
+}
 
 interface Entry {
   tittel: string;
@@ -42,11 +70,13 @@ const categories = [
 ];
 
 export default function Search() {
+  const theme = useTheme();
+
   const [fromValue, setFromValue] = useState<Dayjs | null>(dayjs());
 
   const [toValue, setToValue] = useState<Dayjs | null>(dayjs());
 
-  const [category, setCategory] = useState<string | null>(null);
+  const [chosenCategories, setChosenCategories] = useState<string[]>([]);
 
   const [searchValue, setSearchValue] = useState<string>("");
 
@@ -59,6 +89,10 @@ export default function Search() {
   console.log("entryList.length:", entryList.length);
 
   useEffect(() => {
+    const isCorrectCategory = (entry: Entry) => {
+      return chosenCategories.length === 0;
+    };
+
     const datetimeInRange = (entry: Entry) =>
       (fromValue &&
         toValue &&
@@ -86,12 +120,14 @@ export default function Search() {
       );
     };
 
+    console.log(chosenCategories);
+
     setEntryList(
       entries.filter(
         (entry) => datetimeInRange(entry) && containsSearchValues(entry)
       )
     );
-  }, [fromValue, toValue, category, searchValue]);
+  }, [fromValue, toValue, chosenCategories, searchValue]);
 
   const handleClick = (ansvarlig: string) => {
     setOpen({ ...open, [ansvarlig]: !open[ansvarlig] });
@@ -119,18 +155,38 @@ export default function Search() {
           }}
           renderInput={(params) => <TextField {...params} />}
         />
-        <Autocomplete
-          options={categories}
-          id="open-on-focus"
-          openOnFocus
-          value={category}
-          onChange={(event: any, newValue: string | null) => {
-            setCategory(newValue);
+        <Select
+          multiple
+          value={chosenCategories}
+          onChange={(event: SelectChangeEvent<typeof chosenCategories>) => {
+            const {
+              target: { value },
+            } = event;
+            console.log(typeof value);
+            setChosenCategories(
+              // On autofill we get a stringified value.
+              typeof value === "string" ? value.split(",") : value
+            );
           }}
-          renderInput={(params) => (
-            <TextField {...params} label="Kategori" variant="outlined" />
+          renderValue={(selected) => (
+            <Box sx={{ display: "flex", flexWrap: "wrap", gap: 0.5 }}>
+              {selected.map((value) => (
+                <Chip key={value} label={value} />
+              ))}
+            </Box>
           )}
-        />
+          MenuProps={MenuProps}
+        >
+          {categories.map((category) => (
+            <MenuItem
+              key={category}
+              value={category}
+              style={getStyles(category, chosenCategories, theme)}
+            >
+              {category}
+            </MenuItem>
+          ))}
+        </Select>
         <TextField
           label="Søk"
           variant="outlined"
