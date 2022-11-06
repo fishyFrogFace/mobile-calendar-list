@@ -59,10 +59,32 @@ export default function Search() {
   console.log("entryList.length:", entryList.length);
   useEffect(() => {
     const datetimeInRange = (entry: Entry) => {
-      return fromValue && toValue
-        ? (dayjs(entry.from) > fromValue && dayjs(entry.from) < toValue) ||
-            (dayjs(entry.to) > fromValue && dayjs(entry.to) < toValue)
-        : false;
+      console.log(
+        "fromValue:",
+        fromValue?.toISOString(),
+        "\ntoValue:",
+        toValue?.toISOString(),
+        "\nentry from:",
+        entry.from,
+        "\nentry.to:",
+        entry.to,
+        "\nfromValue && toValue:",
+        fromValue !== null && toValue !== null,
+        "\nto between:",
+        dayjs(entry.from) > fromValue! && dayjs(entry.from) < toValue!,
+        "\nfrom between:",
+        dayjs(entry.to) > fromValue! && dayjs(entry.to) < toValue!,
+        "\nstarts before and after:",
+        dayjs(entry.from) < fromValue! && dayjs(entry.to) > toValue!
+      );
+      return (
+        (fromValue &&
+          toValue &&
+          dayjs(entry.from) > fromValue &&
+          dayjs(entry.from) < toValue) ||
+        (dayjs(entry.to) > fromValue! && dayjs(entry.to) < toValue!) ||
+        (dayjs(entry.from) < fromValue! && dayjs(entry.to) > toValue!)
+      );
     };
 
     const containsSearchValues = (entry: Entry) => {
@@ -86,7 +108,7 @@ export default function Search() {
 
     setEntryList(
       entries.filter(
-        (entry) => containsSearchValues(entry) //datetimeInRange(entry) || containsSearchValues(entry)
+        (entry) => datetimeInRange(entry) && containsSearchValues(entry)
       )
     );
   }, [fromValue, toValue, category, searchValue]);
