@@ -57,35 +57,15 @@ export default function Search() {
   const [entryList, setEntryList] = useState(entries);
 
   console.log("entryList.length:", entryList.length);
+
   useEffect(() => {
-    const datetimeInRange = (entry: Entry) => {
-      console.log(
-        "fromValue:",
-        fromValue?.toISOString(),
-        "\ntoValue:",
-        toValue?.toISOString(),
-        "\nentry from:",
-        entry.from,
-        "\nentry.to:",
-        entry.to,
-        "\nfromValue && toValue:",
-        fromValue !== null && toValue !== null,
-        "\nto between:",
-        dayjs(entry.from) > fromValue! && dayjs(entry.from) < toValue!,
-        "\nfrom between:",
-        dayjs(entry.to) > fromValue! && dayjs(entry.to) < toValue!,
-        "\nstarts before and after:",
-        dayjs(entry.from) < fromValue! && dayjs(entry.to) > toValue!
-      );
-      return (
-        (fromValue &&
-          toValue &&
-          dayjs(entry.from) > fromValue &&
-          dayjs(entry.from) < toValue) ||
-        (dayjs(entry.to) > fromValue! && dayjs(entry.to) < toValue!) ||
-        (dayjs(entry.from) < fromValue! && dayjs(entry.to) > toValue!)
-      );
-    };
+    const datetimeInRange = (entry: Entry) =>
+      (fromValue &&
+        toValue &&
+        dayjs(entry.from) > fromValue &&
+        dayjs(entry.from) < toValue) ||
+      (dayjs(entry.to) > fromValue! && dayjs(entry.to) < toValue!) ||
+      (dayjs(entry.from) < fromValue! && dayjs(entry.to) > toValue!);
 
     const containsSearchValues = (entry: Entry) => {
       const includesValue = (entry: Entry, value: string) =>
