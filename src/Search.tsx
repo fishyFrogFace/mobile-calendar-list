@@ -56,36 +56,39 @@ export default function Search() {
 
   const [entryList, setEntryList] = useState(entries);
 
+  console.log("entryList.length:", entryList.length);
   useEffect(() => {
-    const containsSearchValues = (entry: Entry, value: string) => {
-      return (
+    const datetimeInRange = (entry: Entry) => {
+      return fromValue && toValue
+        ? (dayjs(entry.from) > fromValue && dayjs(entry.from) < toValue) ||
+            (dayjs(entry.to) > fromValue && dayjs(entry.to) < toValue)
+        : false;
+    };
+
+    const containsSearchValues = (entry: Entry) => {
+      const includesValue = (entry: Entry, value: string) =>
         entry.tittel.toLowerCase().includes(value) ||
         entry.ansvarlig.toLowerCase().includes(value) ||
         entry.ressurs.toLowerCase().includes(value) ||
-        entry.sted.toLowerCase().includes(value)
+        entry.sted.toLowerCase().includes(value);
+
+      const searchValues = searchValue
+        .toLowerCase()
+        .split(" ")
+        .map((term) => term.trim())
+        .filter((term) => term.length !== 0);
+
+      return (
+        searchValues.length === 0 ||
+        !searchValues.map((val) => includesValue(entry, val)).includes(false)
       );
     };
 
-    const searchValues = searchValue
-      .toLowerCase()
-      .split(" ")
-      .filter((val) => val.trim() !== "");
-
-    if (searchValues.length > 0) {
-      setEntryList(
-        entries.filter((entry) => {
-          console.log(
-            entry.tittel,
-            searchValues.map((val) => containsSearchValues(entry, val))
-          );
-          return !searchValues
-            .map((val) => containsSearchValues(entry, val))
-            .includes(false);
-        })
-      );
-    } else {
-      setEntryList(entries);
-    }
+    setEntryList(
+      entries.filter(
+        (entry) => containsSearchValues(entry) //datetimeInRange(entry) || containsSearchValues(entry)
+      )
+    );
   }, [fromValue, toValue, category, searchValue]);
 
   const handleClick = (ansvarlig: string) => {
@@ -180,8 +183,8 @@ export default function Search() {
                           hour: "numeric",
                           minute: "numeric",
                           year: "numeric",
-                          month: "numeric",
-                          day: "numeric",
+                          month: "long",
+                          day: "2-digit",
                         })}
                       </Typography>
                     </Stack>
@@ -195,8 +198,8 @@ export default function Search() {
                           hour: "numeric",
                           minute: "numeric",
                           year: "numeric",
-                          month: "numeric",
-                          day: "numeric",
+                          month: "long",
+                          day: "2-digit",
                         })}
                       </Typography>
                     </Stack>
