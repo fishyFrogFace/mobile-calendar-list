@@ -95,9 +95,13 @@ const sortEntries = (unsorted: Entry[]) =>
 export default function Search() {
   const theme = useTheme();
 
-  const [fromValue, setFromValue] = useState<Dayjs | null>(dayjs());
+  const [fromValue, setFromValue] = useState<Dayjs | null>(
+    dayjs("2022-11-02T14:00:00Z")
+  );
 
-  const [toValue, setToValue] = useState<Dayjs | null>(dayjs());
+  const [toValue, setToValue] = useState<Dayjs | null>(
+    dayjs("2022-11-02T22:00:00Z")
+  );
 
   const [chosenCategories, setChosenCategories] = useState<string[]>([]);
 
@@ -108,12 +112,6 @@ export default function Search() {
   );
 
   const [entryList, setEntryList] = useState(sortEntries(entries));
-
-  console.log(
-    entryList.map((entry: Entry) =>
-      dayjs(entry.to).diff(dayjs(entry.from), "hour")
-    )
-  );
 
   useEffect(() => {
     const isCorrectCategory = (entry: Entry) =>

@@ -171,8 +171,8 @@ export const entries = [
   },
   {
     tittel: "368 Schurz Crossing Hayes Flagging",
-    from: "2022-11-02T17:30:00Z",
-    to: "2022-11-02T23:30:00Z",
+    from: "2022-11-02T08:00:00Z",
+    to: "2022-11-02T20:00:00Z",
     sted: "368 Schurz Crossing",
     ressurs: "Elliot Rude, 49925096",
     ansvarlig: "Hayes, Pfannerstill and Lindgren",
