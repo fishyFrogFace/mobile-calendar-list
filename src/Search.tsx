@@ -239,6 +239,7 @@ export default function Search() {
                       style: {
                         color: "#4a4343",
                         fontWeight: "bold",
+                        fontSize: "13px",
                       },
                     }}
                     secondary={entry.tittel}
@@ -246,7 +247,7 @@ export default function Search() {
                       component: "h2",
                       style: {
                         color: "black",
-                        fontSize: "17px",
+                        fontSize: "15px",
                       },
                     }}
                   />
