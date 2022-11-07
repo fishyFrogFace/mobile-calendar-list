@@ -215,7 +215,41 @@ export default function Search() {
                   onClick={() => handleClick(entry.ansvarlig)}
                   selected
                 >
-                  <ListItemText primary={entry.tittel} />
+                  <ListItemText
+                    primary={`${new Date(entry.from).toLocaleDateString(
+                      "no-NB",
+                      {
+                        year: "numeric",
+                        month: "2-digit",
+                        day: "2-digit",
+                      }
+                    )} ${new Date(entry.from).toLocaleTimeString("no-NB", {
+                      hour: "numeric",
+                      minute: "numeric",
+                    })} - ${new Date(entry.to).toLocaleDateString("no-NB", {
+                      year: "numeric",
+                      month: "2-digit",
+                      day: "2-digit",
+                    })} ${new Date(entry.to).toLocaleTimeString("no-NB", {
+                      hour: "numeric",
+                      minute: "numeric",
+                    })}`}
+                    primaryTypographyProps={{
+                      component: "h3",
+                      style: {
+                        color: "#4a4343",
+                        fontWeight: "bold",
+                      },
+                    }}
+                    secondary={entry.tittel}
+                    secondaryTypographyProps={{
+                      component: "h2",
+                      style: {
+                        color: "black",
+                        fontSize: "17px",
+                      },
+                    }}
+                  />
                   {open[entry.ansvarlig] ? <ExpandLess /> : <ExpandMore />}
                 </ListItemButton>
                 <Collapse
