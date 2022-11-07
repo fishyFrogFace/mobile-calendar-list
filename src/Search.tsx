@@ -86,12 +86,10 @@ export default function Search() {
 
   const [entryList, setEntryList] = useState(entries);
 
-  console.log("entryList.length:", entryList.length);
-
   useEffect(() => {
-    const isCorrectCategory = (entry: Entry) => {
-      return chosenCategories.length === 0;
-    };
+    const isCorrectCategory = (entry: Entry) =>
+      chosenCategories.includes(entry.category) ||
+      chosenCategories.length === 0;
 
     const datetimeInRange = (entry: Entry) =>
       (fromValue &&
@@ -120,11 +118,12 @@ export default function Search() {
       );
     };
 
-    console.log(chosenCategories);
-
     setEntryList(
       entries.filter(
-        (entry) => datetimeInRange(entry) && containsSearchValues(entry)
+        (entry) =>
+          isCorrectCategory(entry) &&
+          datetimeInRange(entry) &&
+          containsSearchValues(entry)
       )
     );
   }, [fromValue, toValue, chosenCategories, searchValue]);
@@ -162,7 +161,6 @@ export default function Search() {
             const {
               target: { value },
             } = event;
-            console.log(typeof value);
             setChosenCategories(
               // On autofill we get a stringified value.
               typeof value === "string" ? value.split(",") : value
@@ -279,12 +277,17 @@ export default function Search() {
                       </Typography>
                       <Typography>{entry.ansvarlig}</Typography>
                     </Stack>
-                    <Stack direction="row" justifyContent="space-between">
-                      <Typography>
-                        <b>Antall deltakere:</b>
-                      </Typography>
-                      <Typography>{entry.antall}</Typography>
-                    </Stack>
+                    {entry.antall !== 0 && (
+                      <Stack direction="row" justifyContent="space-between">
+                        <Typography>
+                          <b>Antall deltakere:</b>
+                        </Typography>
+                        <Typography>{entry.antall}</Typography>
+                      </Stack>
+                    )}
+                    <Box sx={{ display: "flex", flexWrap: "wrap", gap: 0.5 }}>
+                      <Chip label={entry.category} />
+                    </Box>
                   </Stack>
                 </Collapse>
               </>
