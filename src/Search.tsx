@@ -23,6 +23,7 @@ import {
   MenuItem,
   Select,
   SelectChangeEvent,
+  styled,
   Theme,
   useTheme,
 } from "@mui/material";
@@ -69,6 +70,23 @@ const categories = [
   "Alkoholsøknader linjeforeningskontor",
 ];
 
+const StyledListItemButton = styled(ListItemButton)({
+  // selected and (selected + hover) states
+  "&& .Mui-selected, && .Mui-selected:hover": {
+    backgroundColor: "red",
+    "&, & .MuiListItemIcon-root": {
+      color: "pink",
+    },
+  },
+  // hover states
+  "& .MuiListItemButton-root:hover": {
+    backgroundColor: "orange",
+    "&, & .MuiListItemIcon-root": {
+      color: "yellow",
+    },
+  },
+});
+
 const sortEntries = (unsorted: Entry[]) =>
   unsorted.sort((entry1, entry2) =>
     dayjs(entry1.from).diff(dayjs(entry2.from))
@@ -90,6 +108,12 @@ export default function Search() {
   );
 
   const [entryList, setEntryList] = useState(sortEntries(entries));
+
+  console.log(
+    entryList.map((entry: Entry) =>
+      dayjs(entry.to).diff(dayjs(entry.from), "hour")
+    )
+  );
 
   useEffect(() => {
     const isCorrectCategory = (entry: Entry) =>
@@ -221,6 +245,18 @@ export default function Search() {
                 <ListItemButton
                   onClick={() => handleClick(entry.ansvarlig)}
                   selected
+                  sx={
+                    dayjs(entry.to).diff(dayjs(entry.from), "hour") > 24
+                      ? {
+                          "&.Mui-selected": {
+                            bgcolor: "#d6f5d6",
+                          },
+                          "&.MuiListItemButton-root:hover": {
+                            bgcolor: "#adebad",
+                          },
+                        }
+                      : null
+                  }
                 >
                   <ListItemText
                     primary={`${new Date(entry.from).toLocaleDateString(
