@@ -70,23 +70,6 @@ const categories = [
   "Alkoholsøknader linjeforeningskontor",
 ];
 
-const StyledListItemButton = styled(ListItemButton)({
-  // selected and (selected + hover) states
-  "&& .Mui-selected, && .Mui-selected:hover": {
-    backgroundColor: "red",
-    "&, & .MuiListItemIcon-root": {
-      color: "pink",
-    },
-  },
-  // hover states
-  "& .MuiListItemButton-root:hover": {
-    backgroundColor: "orange",
-    "&, & .MuiListItemIcon-root": {
-      color: "yellow",
-    },
-  },
-});
-
 const sortEntries = (unsorted: Entry[]) =>
   unsorted.sort((entry1, entry2) =>
     dayjs(entry1.from).diff(dayjs(entry2.from))
@@ -164,7 +147,9 @@ export default function Search() {
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="nb">
       <Stack spacing={3}>
-        <Typography>Søk i kalenderoppføringer</Typography>
+        <Typography variant="h1" style={{ fontSize: "22px" }}>
+          Søk i kalenderoppføringer
+        </Typography>
         <MobileDateTimePicker
           label="Fra"
           ampm={false}
