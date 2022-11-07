@@ -69,6 +69,11 @@ const categories = [
   "Alkoholsøknader linjeforeningskontor",
 ];
 
+const sortEntries = (unsorted: Entry[]) =>
+  unsorted.sort((entry1, entry2) =>
+    dayjs(entry1.from).diff(dayjs(entry2.from))
+  );
+
 export default function Search() {
   const theme = useTheme();
 
@@ -84,7 +89,7 @@ export default function Search() {
     Object.fromEntries(entries.map((entry: Entry) => [entry.ansvarlig, false]))
   );
 
-  const [entryList, setEntryList] = useState(entries);
+  const [entryList, setEntryList] = useState(sortEntries(entries));
 
   useEffect(() => {
     const isCorrectCategory = (entry: Entry) =>
@@ -119,11 +124,13 @@ export default function Search() {
     };
 
     setEntryList(
-      entries.filter(
-        (entry) =>
-          isCorrectCategory(entry) &&
-          datetimeInRange(entry) &&
-          containsSearchValues(entry)
+      sortEntries(
+        entries.filter(
+          (entry) =>
+            isCorrectCategory(entry) &&
+            datetimeInRange(entry) &&
+            containsSearchValues(entry)
+        )
       )
     );
   }, [fromValue, toValue, chosenCategories, searchValue]);
